@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emtmetab"
+version = "1.0.0"
+description = "Mechanistic model of cancer cell metabolism (AMPK / HIF-1 / ROS) along the catabolic-anabolic axes"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Javier Villela-Castrejon" }]
+dependencies = ["numpy>=1.23", "scipy>=1.9", "matplotlib>=3.6", "pandas>=1.5"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4", "nbclient>=0.9", "nbformat>=5.9", "ipykernel>=6.0"]
+notebook = ["jupyter", "ipykernel", "seaborn>=0.12"]
+
+[project.scripts]
+emtmetab = "emtmetab.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B"]
+# model.py is a verbatim port of the published notebook; keep its formatting as is.
+per-file-ignores = { "src/emtmetab/model.py" = ["E", "W", "B", "I"] }
